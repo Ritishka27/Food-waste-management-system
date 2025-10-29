@@ -26,4 +26,4 @@ jobs:
 
       - name: Run tests (or verify app)
         run: |
-          python -m py_compile app.py
+          python -m py_compile project2.py
