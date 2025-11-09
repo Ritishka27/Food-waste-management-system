@@ -7,10 +7,34 @@ on:
 
 jobs:
   build:
-    name: Build for ${{ matrix.os }} / Python ${{ matrix.python-version }}
-    runs-on: ${{ matrix.os }}
+    name: Build for Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3]()
+        python-version: ['3.9', '3.10', '3.11']   # ✅ Three parallel variants
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: matrix-e692026
+        run: echo "Building for Python version ${{ matrix.python-version }}"
+
+      - name: Generate build artifact
+        run: |
+          echo "Build output for Python ${{ matrix.python-version }}" > build_output.txt
+          echo "Timestamp: $(date)" >> build_output.txt
+          echo "Unique build ID e692026" >> build_output.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-e692026-py${{ matrix.python-version }}
+          path: build_output.txt
+
